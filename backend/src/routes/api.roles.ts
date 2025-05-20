@@ -3,7 +3,7 @@
  * Ensure that each role listed here has a counterpart 
  * in the Keycloak admin console with the description prefix `app_`
  */
-export type Role = 'admin' | 'user';
+export type Role = 'user';
 
 /**
  * The default role for the site. 
