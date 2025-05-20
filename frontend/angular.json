@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "FhssStarterApp": {
+    "FaceQuiz": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -63,10 +63,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "FhssStarterApp:build:production"
+              "buildTarget": "FaceQuiz:build:production"
             },
             "development": {
-              "buildTarget": "FhssStarterApp:build:development"
+              "buildTarget": "FaceQuiz:build:development"
             }
           },
           "defaultConfiguration": "development",
