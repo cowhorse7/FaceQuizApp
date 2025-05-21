@@ -1,3 +1,4 @@
+import { createDeck } from './decks/create-deck/create-deck.ts'
 import { Route } from '@fhss-web-team/backend-utils/endpoint';
 import { authCallback } from './auth/callback/auth-callback.ts';
 import { createUser } from './user-management/create-user/create-user.ts';
@@ -19,4 +20,10 @@ export const routes: Route[] = [
       { data: createUser, allowedRoles: ['admin'] },
     ],
   },
+	{
+		path: '/decks',
+		endpoints: [
+      { data: createDeck, allowedRoles: [] },
+    ]
+	},
 ];
