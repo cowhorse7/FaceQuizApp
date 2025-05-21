@@ -1,3 +1,5 @@
+import { createDecks } from "./functions/create-decks.ts";
+import { deleteDecks } from "./functions/delete-decks.ts";
 import { createUser } from "./functions/users/create-user.ts";
 import { createUsers } from "./functions/users/create-users.ts";
 import { deleteUsers } from "./functions/users/delete-users.ts";
@@ -8,4 +10,6 @@ export const dummyFunctions: DummyFunction<any>[] = [
 	deleteUsers,
 	createUsers,
 	createUser,
+	deleteDecks,
+	createDecks,
 ];
