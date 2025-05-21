@@ -47,4 +47,37 @@ model User {
   ///////////////////
 
   // Additional fields can be added below
+  decks Deck[]
+  runs  Run[]
+}
+
+model Deck {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String
+  runs        Run[]
+  cards       Card[]
+}
+
+model Card {
+  id               Int    @id @default(autoincrement())
+  personName       String
+  personDepartment String
+  imageName        String
+  deck             Deck   @relation(fields: [deckId], references: [id])
+  deckId           Int
+}
+
+model Run {
+  id             Int      @id @default(autoincrement())
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  deck           Deck     @relation(fields: [deckId], references: [id])
+  deckId         Int
+  startTime      DateTime
+  completionTime DateTime
+  missedCards    Int
+  correctCards   Int
 }
