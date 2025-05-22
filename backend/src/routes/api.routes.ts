@@ -1,3 +1,5 @@
+import { deleteDeck } from './decks/delete-deck/delete-deck.ts'
+import { updateDeck } from './decks/update-deck/update-deck.ts'
 import { createDeck } from './decks/create-deck/create-deck.ts'
 import { Route } from '@fhss-web-team/backend-utils/endpoint';
 import { authCallback } from './auth/callback/auth-callback.ts';
@@ -22,7 +24,9 @@ export const routes: Route[] = [
   },
 	{
 		path: '/decks',
-		endpoints: [
+    endpoints: [
+      { data: deleteDeck, allowedRoles: [] },
+      { data: updateDeck, allowedRoles: [] },
       { data: createDeck, allowedRoles: ['user'] },
     ]
 	},
