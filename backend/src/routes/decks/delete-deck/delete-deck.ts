@@ -5,7 +5,7 @@ import { Prisma, prisma } from 'prisma/client';
 type DeleteDeckRequest = RequestData<null, null>;
 type DeleteDeckResponse = ResponseData<null>;
 
-export const deleteDeck = endpoint.delete('/:deckId')<DeleteDeckRequest, DeleteDeckResponse>(data => {
+export const deleteDeck = endpoint.delete('/:deckId')<DeleteDeckRequest, DeleteDeckResponse>(async data => {
   if(!data.requester) {
     return {
       status: 400,
@@ -25,8 +25,26 @@ export const deleteDeck = endpoint.delete('/:deckId')<DeleteDeckRequest, DeleteD
       },
     };
   }
-  return {
-    error: { message: 'This endpoint has not been implemented yet.' },
-    status: 501,
-  };
+
+  try {
+    await prisma.deck.delete({
+      where: {id, user: {netId: data.requester.username}},
+    });
+    return {
+      status: 204,
+    };
+  } catch (err) {
+    if(err instanceof Prisma.PrismaClientKnownRequestError){
+      if (err.code === 'P2025') {
+        return {
+          status: 404,
+          error: {
+            code: 'INVALID_REQUEST',
+            message: 'Deck not found',
+          },
+        };
+      }
+    }
+    throw err;
+  }
 });

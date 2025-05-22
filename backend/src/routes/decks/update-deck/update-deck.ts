@@ -35,8 +35,44 @@ export const updateDeck = endpoint.put('/:deckId')<UpdateDeckRequest, UpdateDeck
     };
   }
 
-  return {
-    error: { message: 'This endpoint has not been implemented yet.' },
-    status: 501,
-  };
+  try {
+    const newDeck = await prisma.deck.update({
+      where: {id, user: { netId: data.requester.username }},
+      data: {
+        name: data.body.name,
+        description: data.body.description,
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+      },
+    });
+    return {
+      status: 200,
+      body: newDeck,
+    };
+  } catch (err) {
+    if(err instanceof Prisma.PrismaClientKnownRequestError){
+      if (err.code === 'P2025') {
+        return {
+          status: 404,
+          error: {
+            code: 'INVALID_REQUEST',
+            message: 'Deck not found',
+          },
+        };
+      }
+      if (err.code === 'P2002') {
+        return {
+          status: 409,
+          error: {
+            code: 'CONFLICT',
+            message: 'A deck with this name already exists for the user.',
+          },
+        };
+      }
+    }
+    throw err;
+  }
 });

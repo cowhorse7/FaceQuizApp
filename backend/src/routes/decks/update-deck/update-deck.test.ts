@@ -58,7 +58,44 @@ describe('Update deck', () => {
         expect(prismaStub.calls).toHaveLength(0);
     });
 
-    it("returns the correct error for user not found", async () => {
+    it("errors if invalid id", async () => {
+        using prismaStub = stub(prisma.deck, "update", () => {
+            return Promise.resolve([]) as unknown as Prisma.Prisma__DeckClient<Deck>;
+        });
+        const result = await updateDeck.handler({
+            requester: requester,
+            params: {deckId: 'asdf'},
+            query: null,
+            body: {},
+        });
+
+        expect(result.status).toBe(400);
+        expect(result.error).toBeDefined();
+        expect(prismaStub.calls).toHaveLength(0);
+    });
+
+    it("returns the id, name, and description", async () => {
+        const newDeck = {
+            id: 1234,
+            name: "NewName",
+            description: '',
+        };
+        using prismaStub = stub(prisma.deck, "update", () => {
+            return Promise.resolve([]) as unknown as Prisma.Prisma__DeckClient<Deck>;
+        });
+        const result = await updateDeck.handler({
+            requester: requester,
+            params: {deckId: '1234'},
+            query: null,
+            body: { name: "NewName", description: ''},
+        });
+
+        expect(result.status).toBe(200);
+        expect(result.body).toEqual(newDeck);
+        expect(prismaStub.calls).toHaveLength(1);
+    });
+
+    it("returns the correct error for deck not found", async () => {
         using prismaStub = stub(prisma.deck, "update", () => {
             throw new Prisma.PrismaClientKnownRequestError("operation failed ... depends on records ... not found", {
                 code: 'P2025',
@@ -77,4 +114,24 @@ describe('Update deck', () => {
         expect(result.error?.message).toMatch(/deck not found/i);
         expect(prismaStub.calls).toHaveLength(1);
     });
+
+    it("returns correct error for duplicate deck", async () => {
+            using prismaStub = stub(prisma.deck, "update", () => {
+                throw new Prisma.PrismaClientKnownRequestError("Unique constraint failed", {
+                    code: 'P2002',
+                    clientVersion: 'idk bro',
+                });
+            });
+            const result = await updateDeck.handler({
+                requester: requester,
+                params: { deckId: '1234'},
+                body: {name: "New Deck"},
+                query: null,
+            });
+    
+            expect(result.status).toBe(409);
+            expect(result.error).toBeDefined();
+            expect(result.error?.message).toMatch(/deck/i);
+            expect(prismaStub.calls).toHaveLength(1);
+        });
 })
