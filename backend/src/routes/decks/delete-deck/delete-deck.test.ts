@@ -31,40 +31,40 @@ describe('Delete deck', () => {
             expect(prismaStub.calls).toHaveLength(0);
         });
     
-        it("errors if name is missing", async () => {
-            using prismaStub = stub(prisma.deck, 'create', () => {
-                return Promise.resolve([]) as unknown as Prisma.Prisma__DeckClient<Deck>;
-            });
-            const result = await deleteDeck.handler({
-                requester: requester,
-                params: {},
-                query: null,
-                body: null,
-            });
-    
-            expect(result.status).toBe(400);
-            expect(result.error).toBeDefined();
-            expect(result.error?.message).toMatch(/name/i);
-            expect(prismaStub.calls).toHaveLength(0);
+    it("errors if name is missing", async () => {
+        using prismaStub = stub(prisma.deck, 'create', () => {
+            return Promise.resolve([]) as unknown as Prisma.Prisma__DeckClient<Deck>;
+        });
+        const result = await deleteDeck.handler({
+            requester: requester,
+            params: {},
+            query: null,
+            body: null,
         });
 
-        it("returns the correct error for user not found", async () => {
-                using prismaStub = stub(prisma.deck, "create", () => {
-                    throw new Prisma.PrismaClientKnownRequestError("operation failed ... depends on records ... not found", {
-                        code: 'P2025',
-                        clientVersion: 'idk bro',
-                    });
-                });
-                const result = await deleteDeck.handler({
-                    requester: requester,
-                    params: {},
-                    body: {name: "New Deck"},
-                    query: null,
-                });
-        
-                expect(result.status).toBe(404);
-                expect(result.error).toBeDefined();
-                expect(result.error?.message).toMatch(/user not found/i);
-                expect(prismaStub.calls).toHaveLength(1);
+        expect(result.status).toBe(400);
+        expect(result.error).toBeDefined();
+        expect(result.error?.message).toMatch(/name/i);
+        expect(prismaStub.calls).toHaveLength(0);
+    });
+
+    it("returns the correct error for user not found", async () => {
+        using prismaStub = stub(prisma.deck, "create", () => {
+            throw new Prisma.PrismaClientKnownRequestError("operation failed ... depends on records ... not found", {
+                code: 'P2025',
+                clientVersion: 'idk bro',
             });
+        });
+        const result = await deleteDeck.handler({
+            requester: requester,
+            params: {},
+            body: {name: "New Deck"},
+            query: null,
+        });
+
+        expect(result.status).toBe(404);
+        expect(result.error).toBeDefined();
+        expect(result.error?.message).toMatch(/user not found/i);
+        expect(prismaStub.calls).toHaveLength(1);
+    });
 })

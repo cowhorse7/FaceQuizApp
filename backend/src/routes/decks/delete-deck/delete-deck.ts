@@ -1,11 +1,11 @@
 
-import { RequestData, ResponseData } from '@fhss-web-team/backend-utils/endpoint';
-import { endpoint } from '@fhss-web-team/backend-utils/endpoint';
+import { RequestData, ResponseData, endpoint } from '@fhss-web-team/backend-utils/endpoint';
+import { Prisma, prisma } from 'prisma/client';
 
-type DeleteDeckRequest = RequestData<null, { name: string; }>;
+type DeleteDeckRequest = RequestData<null, null>;
 type DeleteDeckResponse = ResponseData<null>;
 
-export const deleteDeck = endpoint.post('/')<DeleteDeckRequest, DeleteDeckResponse>(data => {
+export const deleteDeck = endpoint.delete('/:deckId')<DeleteDeckRequest, DeleteDeckResponse>(data => {
   if(!data.requester) {
     return {
       status: 400,
@@ -15,12 +15,13 @@ export const deleteDeck = endpoint.post('/')<DeleteDeckRequest, DeleteDeckRespon
       },
     };
   }
-  if(!data.body?.name) {
+  const id = parseInt(data.params.deckId);
+  if (isNaN(id)) {
     return {
       status: 400,
       error: {
         code: 'INVALID_REQUEST',
-        message: "Deck name required",
+        message: 'Invalid deck ID',
       },
     };
   }
