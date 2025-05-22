@@ -23,7 +23,7 @@ export const routes: Route[] = [
 	{
 		path: '/decks',
 		endpoints: [
-      { data: createDeck, allowedRoles: [] },
+      { data: createDeck, allowedRoles: ['user'] },
     ]
 	},
 ];
