@@ -1,3 +1,4 @@
+import { getDeck } from './decks/get-deck/get-deck.ts'
 import { getDecks } from './decks/get-decks/get-decks.ts'
 import { deleteDeck } from './decks/delete-deck/delete-deck.ts'
 import { updateDeck } from './decks/update-deck/update-deck.ts'
@@ -26,6 +27,7 @@ export const routes: Route[] = [
 	{
 		path: '/decks',
     endpoints: [
+      { data: getDeck, allowedRoles: ['user'] },
       { data: getDecks, allowedRoles: ['user'] },
       { data: deleteDeck, allowedRoles: ['user'] },
       { data: updateDeck, allowedRoles: ['user'] },
