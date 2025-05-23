@@ -85,15 +85,86 @@ describe('Get decks', () => {
         using prismaCountStub = stub(prisma.deck, 'count', () => {
             return Promise.resolve(3) as unknown as Prisma.Prisma__DeckClient<number>;
         });
+
+        const result = await getDecks.handler({
+            requester: requester,
+            params: {},
+            query: null,
+            body: null,
+        });
+
+        expect(result.body?.data.length).toBe(0);
+        expect(prismaStub.calls).toHaveLength(1);
+        expect(prismaCountStub.calls).toHaveLength(1);
     });
 
-    it("is successful", async () => {});
+    it("is successful", async () => {
+        using prismaStub = stub(prisma.deck, 'findMany', () => {
+            return Promise.resolve(decks) as unknown as Prisma.Prisma__DeckClient<Deck[]>;
+        });
+        using prismaCountStub = stub(prisma.deck, 'count', () => {
+            return Promise.resolve(3) as unknown as Prisma.Prisma__DeckClient<number>;
+        });
 
-    
-   //const cards = await Promise.all();
-})
+        const result = await getDecks.handler({
+            requester: requester,
+            params: {},
+            query: null,
+            body: null,
+        });
 
+        expect(result.body).toBeDefined();
+        expect(result.body?.data.length).toBe(decks.length);
+        expect(result.body?.data).toContainEqual({
+            name: decks[0].name,
+            description: decks[0].description,
+            id: decks[0].id,
+            size: decks[0]._count.cards,
+        });
+        expect(prismaStub.calls).toHaveLength(1);
+        expect(prismaCountStub.calls).toHaveLength(1);
+    });
 
+    it("correctly parses incorrect query parameters", async () => {
+        using prismaStub = stub(prisma.deck, "findMany", () => {
+            return Promise.resolve(decks) as unknown as Prisma.Prisma__DeckClient<Deck[]>;
+        });
+        using prismaCountStub = stub(prisma.deck, "count", () => {
+            return Promise.resolve(3) as unknown as Prisma.Prisma__DeckClient<number>;
+        });
+
+        const result1 = await getDecks.handler({
+            params: {},
+            query: {
+                sort_by: 'name',
+                sort_direction: 'up',
+            },
+            body: null,
+            requester: requester,
+        });
+
+        expect(result1.status).toBe(400);
+        expect(result1.body).toBeUndefined();
+        expect(prismaStub.calls).toHaveLength(0);
+        expect(prismaCountStub.calls).toHaveLength(0);
+
+        const result2 = await getDecks.handler({
+            params: {},
+            query: {
+                sort_by: 'color',
+            },
+            body: null,
+            requester: requester,
+        });
+
+        expect(result2.status).toBe(400);
+        expect(result2.body).toBeUndefined();
+        expect(prismaStub.calls).toHaveLength(0);
+        expect(prismaCountStub.calls).toHaveLength(0);
+    });
+});
+
+//const cards = await Promise.all();
 // Stuff for single deck-getting
 // it("errors if invalid id", async () => {
     // using prismaStub = stub(prisma.deck, 'findMany', () => {

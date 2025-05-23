@@ -20,6 +20,16 @@ type GetDecksResponse = ResponseData<{
 }>;
 
 export const getDecks = endpoint.get('/')<GetDecksRequest, GetDecksResponse>(async data => {
+  if (!data.requester) {
+    return {
+      status: 400,
+      error: {
+        code: 'INVALID_REQUEST',
+        message: 'No requesting user',
+      },
+    };
+  }
+  
   const take = data.query?.page_count ? parseInt(data.query.page_count) : 10;
   const skip = data.query?.page_offset ? parseInt(data.query.page_offset): 0;
 
