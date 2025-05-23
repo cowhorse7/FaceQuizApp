@@ -15,7 +15,7 @@ const requester = {
 describe('Update deck', () => {
   it('errors if there is no requesting user', async () => {
         using prismaStub = stub(prisma.deck, 'update', () => {
-        return Promise.resolve() as unknown as Prisma.Prisma__DeckClient<Deck>;
+            return Promise.resolve() as unknown as Prisma.Prisma__DeckClient<Deck>;
         });
 
         const result = await updateDeck.handler({
@@ -81,7 +81,7 @@ describe('Update deck', () => {
             description: '',
         };
         using prismaStub = stub(prisma.deck, "update", () => {
-            return Promise.resolve([]) as unknown as Prisma.Prisma__DeckClient<Deck>;
+            return Promise.resolve(newDeck) as unknown as Prisma.Prisma__DeckClient<Deck>;
         });
         const result = await updateDeck.handler({
             requester: requester,
@@ -125,7 +125,7 @@ describe('Update deck', () => {
             const result = await updateDeck.handler({
                 requester: requester,
                 params: { deckId: '1234'},
-                body: {name: "New Deck"},
+                body: {name: "NewName"},
                 query: null,
             });
     

@@ -37,7 +37,7 @@ describe('Delete deck', () => {
         });
         const result = await deleteDeck.handler({
             requester: requester,
-            params: { deckId: '1234'},
+            params: { deckId: 'asdf'},
             query: null,
             body: null,
         });
@@ -46,6 +46,22 @@ describe('Delete deck', () => {
         expect(result.error).toBeDefined();
         expect(prismaStub.calls).toHaveLength(0);
     });
+
+    it("is successful", async () => {
+        using prismaStub = stub(prisma.deck, "delete", () => {
+            return Promise.resolve([]) as unknown as Prisma.Prisma__DeckClient<Deck>;
+        });
+        const result = await deleteDeck.handler({
+            requester: requester,
+            params: {deckId: '1234'},
+            query: null,
+            body: null,
+        });
+
+        expect(result.status).toBe(204);
+        expect(result.body).toBeUndefined();
+        expect(prismaStub.calls).toHaveLength(1);
+    })
 
     it("returns the correct error for deck not found", async () => {
         using prismaStub = stub(prisma.deck, "delete", () => {
