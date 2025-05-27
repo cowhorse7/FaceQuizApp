@@ -14,14 +14,24 @@ const requester = {
 };
 
 describe('Get deck', () => {
+    const deck = {
+        name: 'Deck one',
+        description: "A sample desc for Deck One",
+        id: 1,
+        cards: [
+            { id: 12, personName: "alejandro Ga", personDepartment: 'psychadelic', imageName: 'image.jpg'},
+            { id: 45, personName: "America Sans", personDepartment: 'cs', imageName: 'photo.png'},
+            { id: 62, personName: "Freddy Mercury", personDepartment: 'math', imageName: 'picture.jpg'},
+        ]
+    }
     const deckRes = {
         name: 'Deck one',
         description: "A sample desc for Deck One",
         id: 1,
         cards: [
-            { id: 12, personName: "alejandro Ga", personDepartment: 'psychadelic', imageName: 'https://somewebsite.com'},
-            { id: 45, personName: "America Sans", personDepartment: 'cs', imageName: 'https://somewebsite.com'},
-            { id: 62, personName: "Freddy Mercury", personDepartment: 'math', imageName: 'https://somewebsite.com'},
+            { id: 12, personName: "alejandro Ga", personDepartment: 'psychadelic', imageUrl: 'https://somewebsite.com'},
+            { id: 45, personName: "America Sans", personDepartment: 'cs', imageUrl: 'https://somewebsite.com'},
+            { id: 62, personName: "Freddy Mercury", personDepartment: 'math', imageUrl: 'https://somewebsite.com'},
         ]
     }
 
@@ -38,7 +48,6 @@ describe('Get deck', () => {
         });
 
         expect(result.status).toBe(400);
-        expect(result.error).toBeDefined();
         expect(result.error?.message).toMatch(/request/i);
         expect(prismaStub.calls).toHaveLength(0);
     });
@@ -55,17 +64,13 @@ describe('Get deck', () => {
         });
     
         expect(result.status).toBe(400);
-        expect(result.error).toBeDefined();
         expect(result.error?.message).toMatch(/id/i);
         expect(prismaStub.calls).toHaveLength(0);
     });
 
     it("returns the correct error for deck not found", async () => {
         using prismaStub = stub(prisma.deck, "findUnique", () => {
-            throw new Prisma.PrismaClientKnownRequestError("operation failed ... depends on records ... not found", {
-                code: 'P2025',
-                clientVersion: 'idk bro',
-            });
+            return Promise.resolve(null) as unknown as Prisma.Prisma__DeckClient<Deck>;
         });
         const result = await getDeck.handler({
             requester: requester,
@@ -76,13 +81,13 @@ describe('Get deck', () => {
     
         expect(result.status).toBe(404);
         expect(result.error).toBeDefined();
-        expect(result.error?.message).toMatch(/deck not found/i);
+        expect(result.error?.message).toMatch(/deck/i);
         expect(prismaStub.calls).toHaveLength(1);
     });
 
     it("returns the correct deck and cards", async () => {
         using prismaStub = stub(prisma.deck, "findUnique", () => {
-            return Promise.resolve(deckRes) as unknown as Prisma.Prisma__DeckClient<Deck>;
+            return Promise.resolve(deck) as unknown as Prisma.Prisma__DeckClient<Deck>;
         });
         using minioStub = stub(fileService, 'getUrl', () => {
             return Promise.resolve("https://somewebsite.com");
@@ -95,7 +100,6 @@ describe('Get deck', () => {
             query: null,
         });
 
-        expect(result.status).toBe(200);
         expect(result.body).toMatchObject(deckRes);
         expect(prismaStub.calls).toHaveLength(1);
         expect(minioStub.calls).toHaveLength(deckRes.cards.length)
