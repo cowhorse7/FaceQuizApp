@@ -7,7 +7,7 @@ export const createUsers: DummyFunction = {
   name: 'Create users',
   description: 'Creates a bunch of users',
   handler: async () => {
-    const netIds = ['kessi', 'pshumard', 'dmorais', 'rae1998', 'mollyrem', 'stokesgl', 'bmonson0', 'graywlr'];
+    const netIds = ['kessi', 'pshumard', 'rnc23', 'jaogden', 'mollyrem', 'bmonson0', 'graywlr'];
     const accts = await byuApi.getBasicAccountsByNetId(netIds)
     const role = await keycloakApi.getAppRole(DEFAULT_ROLE)
     const users = accts.map(acct => userService.createUser(acct, role!));
