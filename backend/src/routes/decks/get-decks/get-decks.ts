@@ -73,7 +73,7 @@ export const getDecks = endpoint.get('/')<GetDecksRequest, GetDecksResponse>(asy
   }
 
   const sortBy = data.query?.sort_by ?? 'updatedAt';
-  const canSortBy = ['name', 'count', 'updatedAt', 'createdAt'];
+  const canSortBy = ['name', 'cards', 'updatedAt', 'createdAt'];
   if(!canSortBy.includes(sortBy)) {
     return {
       status: 400,
