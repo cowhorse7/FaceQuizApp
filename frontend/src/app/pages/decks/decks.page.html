@@ -1,1 +1,57 @@
-<p>decks works!</p>
+<main>
+<div class="filter-bar">
+    <mat-form-field>
+        <input matInput [(ngModel)]="search" placeholder="Search by name..."/>
+        @if (search()) {
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="search.set('')">
+                <mat-icon>close</mat-icon>
+            </button>
+        }
+    </mat-form-field>
+    <div class="sort-button-list" matSort (matSortChange)="onSort($event)">
+        @for (option of sortOptions; track $index) {
+            <button class="sort-button" mat-sort-header="{{option}}" [disableClear]="true">{{option}}</button>
+        }
+    </div>
+</div>
+
+@if (decksRequest.error()) {
+    <div class="error-message">
+        <p>{{ decksRequest.error()?.message }}</p>
+        <button (click)="decksRequest.refresh()">Retry</button>
+    </div>
+} @else {
+    <div class="deck-list">
+        @for(deck of decksRequest.persistentValue()?.data; track $index) {
+            <mat-card class="deck">
+                <mat-card-header>
+                    <mat-card-title> {{ deck.name.trim().length > 43 ? `${deck.name.slice(0,40).trim()}...`:deck.name}}</mat-card-title>
+                </mat-card-header>
+                @if(deck.description && deck.name.length < 30) {
+                    <mat-card-content>
+                        <p>
+                            {{deck.description.trim().length > 21 ? `${deck.description.slice(0,18).trim()}...` : deck.description}}
+                        </p>
+                    </mat-card-content>
+                }
+            </mat-card>
+        } @empty {
+            <p class="empty-message">No decks found</p>
+        }
+    </div>
+}
+</main>
+
+<mat-paginator
+  [length]="decksRequest.persistentValue()?.totalCount"
+  [showFirstLastButtons]="true"
+  [pageSize]="PAGE_SIZE"
+  [hidePageSize]="true"
+  [pageIndex]="pageIndex()"
+  [disabled]="decksRequest.isLoading()"
+  (page)="handlePaginationUpdate($event)"
+/>
+
+@if (decksRequest.isLoading()) {
+    <mat-spinner />
+  }

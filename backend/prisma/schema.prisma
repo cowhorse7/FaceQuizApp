@@ -52,13 +52,15 @@ model User {
 }
 
 model Deck {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
-  description String @default("")
-  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  description String   @default("")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   runs        Run[]
   cards       Card[]
+  updatedAt   DateTime
+  createdAt   DateTime
 
   @@unique([userId, name])
 }
