@@ -11,9 +11,9 @@ export const routes: Routes = [
   { path: 'auth-error', component: AuthErrorPage },
   { path: '', component: ByuLayout, 
     children: [ 
-      {path: '', component: HomePage}, 
+      {path: 'decks/:deckId', component: DeckCardsPage, canActivate: [authGuard]},
       {path: 'decks', component: DecksPage, canActivate: [authGuard]},
-      {path: 'decks/:deckId', component: DeckCardsPage, canActivate: [authGuard]}
+      {path: '', component: HomePage}
     ],
   }, 
   { path: '**', component: NotFoundPage },

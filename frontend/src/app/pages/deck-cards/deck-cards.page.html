@@ -1,1 +1,43 @@
-<p>deck-cards works!</p>
+<main>
+
+    @if (deckRequest.error()) {
+        <div class="error-message">
+            <p>{{ deckRequest.error()?.message }}</p>
+            <button (click)="deckRequest.refresh()">Retry</button>
+        </div>
+    } @else {
+        <h1>{{ deckRequest.persistentValue()?.name }}</h1>
+        <div class="card-list">
+            @for(card of deckRequest.persistentValue()?.cards; track $index) {
+                <mat-card class="card">
+                    <mat-card-header>
+                        <mat-card-title> {{ card.personName.trim().length > 43 ? `${card.personName.slice(0,40).trim()}...`:card.personName}}</mat-card-title>
+                    </mat-card-header>
+                    @if(card.personDepartment && card.personName.length < 30) {
+                        <mat-card-content>
+                            <p>
+                                {{card.personDepartment.trim().length > 21 ? `${card.personDepartment.slice(0,18).trim()}...` : card.personDepartment}}
+                            </p>
+                        </mat-card-content>
+                    }
+                </mat-card>
+            } @empty {
+                <p class="empty-message">No cards found</p>
+            }
+        </div>
+    }
+    </main>
+    
+    <mat-paginator
+      [length]="deckRequest.persistentValue()?.cards?.length"
+      [showFirstLastButtons]="true"
+      [pageSize]="PAGE_SIZE"
+      [hidePageSize]="true"
+      [pageIndex]="pageIndex()"
+      [disabled]="deckRequest.isLoading()"
+      (page)="handlePaginationUpdate($event)"
+    />
+    
+    @if (deckRequest.isLoading()) {
+        <mat-spinner />
+      }

@@ -23,7 +23,8 @@
 } @else {
     <div class="deck-list">
         @for(deck of decksRequest.persistentValue()?.data; track $index) {
-            <mat-card class="deck">
+            <a [routerLink]="['/decks', deck.id]">
+            <mat-card class="deck" (click)="goToDeck(deck.id)">
                 <mat-card-header>
                     <mat-card-title> {{ deck.name.trim().length > 43 ? `${deck.name.slice(0,40).trim()}...`:deck.name}}</mat-card-title>
                 </mat-card-header>
@@ -37,7 +38,9 @@
                 <mat-card-footer class="deck-footer">
                     <p>{{ deck.size }} Cards</p>
                 </mat-card-footer>
+                
             </mat-card>
+        </a>
         } @empty {
             <p class="empty-message">No decks found</p>
         }

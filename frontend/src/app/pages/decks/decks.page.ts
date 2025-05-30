@@ -10,16 +10,23 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
 
 type SortOptions = 'name' | 'cards' | 'updatedAt' | 'createdAt'
 
 @Component({
   selector: 'app-decks',
-  imports: [MatInputModule, MatSortModule, MatCardModule, MatIconModule, MatPaginatorModule, MatProgressSpinnerModule, FormsModule],
+  imports: [MatInputModule, MatSortModule, MatCardModule, MatIconModule, MatPaginatorModule, MatProgressSpinnerModule, FormsModule, RouterLink],
   templateUrl: './decks.page.html',
   styleUrl: './decks.page.scss'
 })
 export class DecksPage {
+  constructor(private router: Router){}
+
+  goToDeck(deckId: number) {
+    this.router.navigate(['/decks', deckId]);
+  }
+
   search = signal('');
 
   readonly PAGE_SIZE = 12;
