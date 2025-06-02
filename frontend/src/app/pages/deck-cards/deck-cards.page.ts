@@ -5,6 +5,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-deck-cards',
@@ -13,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './deck-cards.page.scss'
 })
 export class DeckCardsPage {
+  constructor(private location: Location){}
   private route = inject(ActivatedRoute);
 
   
@@ -30,4 +32,6 @@ export class DeckCardsPage {
   handlePaginationUpdate(e:PageEvent) {
     this.pageIndex.set(e.pageIndex);
   }
+
+  goBack(){this.location.back();}
 }

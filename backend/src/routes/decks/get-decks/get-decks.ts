@@ -89,7 +89,7 @@ export const getDecks = endpoint.get('/')<GetDecksRequest, GetDecksResponse>(asy
   const decks = await prisma.deck.findMany({
     where: {
       user: {netId: data.requester?.username},
-      name: { contains: data.query?.filter_name},
+      name: { contains: data.query?.filter_name, mode: 'insensitive'},
     },
     orderBy,
     skip,
