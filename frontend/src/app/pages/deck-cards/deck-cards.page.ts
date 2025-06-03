@@ -14,9 +14,11 @@ import { Location } from '@angular/common';
   styleUrl: './deck-cards.page.scss'
 })
 export class DeckCardsPage {
-  constructor(private location: Location){}
-  private route = inject(ActivatedRoute);
+  isModalOpen = false;
 
+  constructor(private location: Location){}
+
+  private route = inject(ActivatedRoute);
   
   id = this.route.snapshot.params['deckId'];
 
@@ -34,4 +36,10 @@ export class DeckCardsPage {
   }
 
   goBack(){this.location.back();}
+
+  addCard(){
+
+  }
+  openModal(){this.isModalOpen = true;}
+  closeModal(){this.isModalOpen = false;}
 }

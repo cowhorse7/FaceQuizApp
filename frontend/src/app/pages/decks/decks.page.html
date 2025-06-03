@@ -8,12 +8,23 @@
             </button>
         }
     </mat-form-field>
+    <button class = "new" (click)="openModal()">Create a deck</button>
     <div class="sort-button-list" matSort (matSortChange)="onSort($event)">
         @for (option of sortOptions; track $index) {
             <button class="sort-button" mat-sort-header="{{option}}" [disableClear]="true">{{option}}</button>
         }
     </div>
 </div>
+
+@if (isModalOpen){
+<div class="modal-backdrop">
+    <div class="modal">
+      <h2>Create deck &nbsp;<button (click)="closeModal()">X</button></h2>
+      
+      <p>Please enter the name of your new deck</p>
+    </div>
+  </div>
+}
 
 @if (decksRequest.error()) {
     <div class="error-message">

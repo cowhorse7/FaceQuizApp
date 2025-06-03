@@ -5,6 +5,14 @@ mat-paginator {
     bottom: 0;
     background-color: rgb(207, 206, 211);
 }
+a {
+    text-decoration: none;
+    border-radius: 25px;
+    color: purple;
+}
+a:visited {
+    color: rgb(40, 0, 40);
+}
 main {
     width: 70vw;
     padding-top: 3vh;
@@ -25,21 +33,28 @@ button{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     background-color: rgb(32, 228, 228);
 }
+.new {
+    background-color: azure;
+    margin-left: 15px;
+}
 mat-card-footer {
     justify-content:right;
 }
-mat-card:nth-of-type(5n + 1) {
+mat-card {
+    background-color: inherit;
+}
+a:nth-of-type(5n + 1) {
     background-color: rgb(180, 108, 180);
 }
-mat-card:nth-of-type(5n + 2) {
+a:nth-of-type(5n + 2) {
     background-color: rgb(180, 108, 130);
 }
-mat-card:nth-of-type(5n + 3) {
+a:nth-of-type(5n + 3) {
     background-color: rgb(180, 108, 108);
 }
-mat-card:nth-of-type(5n + 4) {
+a:nth-of-type(5n + 4) {
     background-color: rgb(175, 180, 108);
 }
-mat-card:nth-of-type(5n + 5) {
+a:nth-of-type(5n + 5) {
     background-color: rgb(108, 145, 180);
 }

@@ -10,6 +10,7 @@ type GetDecksResponse = {
   }[];
   totalCount: number;
 };
+type CreateDeckResponse = { id: number; name: string };
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,16 @@ export class DecksService {
       }),
       true,
     );
+  }
+  createDeck(name: string, description: string){
+    return fetchSignal<CreateDeckResponse>(()=>({
+      url:'/api/',
+      query: {
+        name: name,
+        description: description,
+      },
+    }),
+  true,
+);
   }
 }

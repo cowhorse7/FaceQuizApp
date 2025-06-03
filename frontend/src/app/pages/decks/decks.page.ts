@@ -21,6 +21,8 @@ type SortOptions = 'name' | 'cards' | 'updatedAt' | 'createdAt'
   styleUrl: './decks.page.scss'
 })
 export class DecksPage {
+  isModalOpen = false;
+  
   constructor(private router: Router){}
 
   goToDeck(deckId: number) {
@@ -58,4 +60,7 @@ export class DecksPage {
     this.sortDirection.set(sort.direction || this.defaultSortDirection);
     this.pageIndex.set(0);
   }
+  createNewDeck(){};
+  openModal(){this.isModalOpen = true;}
+  closeModal(){this.isModalOpen = false;}
 }
