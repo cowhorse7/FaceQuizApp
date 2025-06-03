@@ -17,11 +17,28 @@
 </div>
 
 @if (isModalOpen){
-<div class="modal-backdrop">
-    <div class="modal">
-      <h2>Create deck &nbsp;<button (click)="closeModal()">X</button></h2>
-      
-      <p>Please enter the name of your new deck</p>
+<div class="modal-overlay">
+    <div class="modal-content"><button class="close-btn" (click)="closeModal()">X</button>
+      <h2>Create deck &nbsp;</h2>
+      <p>Please enter the name and (optional) description of your new deck</p>
+      <form (ngSubmit)="createNewDeck()" #formRef="ngForm">
+        <label for="name">Name</label>
+        <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            [(ngModel)]="formData.name"
+            />
+        <label for="description">Description</label>
+        <input
+            type="text"
+            id="description"
+            name="description"
+            [(ngModel)]="formData.description"
+        />
+        <button type="submit" [disabled]="formRef.invalid">Create</button>
+      </form>
     </div>
   </div>
 }

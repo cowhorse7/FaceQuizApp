@@ -23,6 +23,11 @@ type SortOptions = 'name' | 'cards' | 'updatedAt' | 'createdAt'
 export class DecksPage {
   isModalOpen = false;
   
+  formData = {
+    name: '',
+    description: '',
+  };
+
   constructor(private router: Router){}
 
   goToDeck(deckId: number) {

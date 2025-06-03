@@ -6,15 +6,23 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-deck-cards',
-  imports: [MatPaginatorModule, MatProgressSpinnerModule, MatCardModule],
+  imports: [MatPaginatorModule, MatProgressSpinnerModule, MatCardModule, FormsModule],
   templateUrl: './deck-cards.page.html',
   styleUrl: './deck-cards.page.scss'
 })
 export class DeckCardsPage {
   isModalOpen = false;
+
+  formData = {
+    name: '',
+    department: '',
+    image: '',
+  };
 
   constructor(private location: Location){}
 
