@@ -45,7 +45,7 @@ export class DecksService {
 
     return fetchSignal.post<CreateDeckResponse>(()=>({
       url:'/api/decks/',
-      query: {
+      body: {
         name: name(),
         description: description(),
       },
