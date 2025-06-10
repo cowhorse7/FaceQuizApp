@@ -1,4 +1,4 @@
-import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
+import { Component, computed, inject, linkedSignal, runInInjectionContext, signal, EnvironmentInjector } from '@angular/core';
 import { DecksService } from '../../services/decks/decks.service';
 import { PageEvent } from '@angular/material/paginator';
 import { debounced } from '@fhss-web-team/frontend-utils';
@@ -28,7 +28,7 @@ export class DecksPage {
     description: '',
   };
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private injector: EnvironmentInjector){}
 
   goToDeck(deckId: number) {
     this.router.navigate(['/decks', deckId]);
@@ -65,7 +65,18 @@ export class DecksPage {
     this.sortDirection.set(sort.direction || this.defaultSortDirection);
     this.pageIndex.set(0);
   }
-  createNewDeck(){};
+  createNewDeck(){
+    const name = signal<string>(this.formData.name);
+    const description = signal<string>(this.formData.description);
+    try{
+    runInInjectionContext(this.injector, () => {
+      this.service.createDeck(name, description);
+    });
+      console.log("success");
+    }catch(err){
+      throw new Error("deck creation failed");
+    }
+  };
   openModal(){this.isModalOpen = true;}
   closeModal(){this.isModalOpen = false;}
 }

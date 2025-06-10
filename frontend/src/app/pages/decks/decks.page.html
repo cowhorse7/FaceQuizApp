@@ -19,7 +19,7 @@
 @if (isModalOpen){
 <div class="modal-overlay">
     <div class="modal-content"><button class="close-btn" (click)="closeModal()">X</button>
-      <h2>Create deck &nbsp;</h2>
+      <h2>Create new deck</h2>
       <p>Please enter the name and (optional) description of your new deck</p>
       <form (ngSubmit)="createNewDeck()" #formRef="ngForm">
         <label for="name">Name</label>

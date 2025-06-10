@@ -41,12 +41,16 @@ export class DecksService {
       true,
     );
   }
-  createDeck(name: string, description: string){
+  createDeck(name: Signal<string>, description: Signal<string>){
+
     return fetchSignal<CreateDeckResponse>(()=>({
-      url:'/api/',
+      url:'/api/decks/',
       query: {
-        name: name,
-        description: description,
+        name: name(),
+        description: description(),
+      },
+      headers: {
+        Authorization: this.auth.bearerToken() ?? '',
       },
     }),
   true,
