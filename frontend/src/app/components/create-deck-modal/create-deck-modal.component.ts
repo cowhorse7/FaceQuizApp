@@ -1,18 +1,19 @@
 import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { DecksService } from '../../services/decks/decks.service';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { NgModel } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { NgModel, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-deck-modal',
-  imports: [MatDialogModule],
+  imports: [MatDialogModule, FormsModule,MatInputModule],
   templateUrl: './create-deck-modal.component.html',
   styleUrl: './create-deck-modal.component.scss'
 })
 export class CreateDeckModalComponent {
   readonly decksService = inject(DecksService);
   readonly dialogRef = inject(MatDialogRef<CreateDeckModalComponent>);
-  readonly deckId: number | undefined = inject(MAT_DIALOG_DATA);
+  // readonly deckId: number | undefined = inject(MAT_DIALOG_DATA);
 
   readonly nameModel = viewChild.required('nameInput', {read: NgModel});
 

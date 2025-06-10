@@ -1,1 +1,46 @@
-<p>create-deck-modal works!</p>
+
+<h2 mat-dialog-title>New Deck<button mat-button mat-dialog-close class="close-btn">X</button></h2> 
+<mat-dialog-content>
+    <form (ngSubmit)="sendRequest()" id="new-deck" class="column">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input
+                matInput
+                type="text"
+                id="name"
+                name="nameInput"
+                #nameInput="ngModel"
+                required
+                [(ngModel)]="name"
+                cdkFocusInitial
+            />
+            <mat-error>
+                @if(nameInput.hasError("required")){
+                    Error: Name is required
+                }
+                @if(nameInput.hasError("conflict")){
+                    Error: Name is already in use
+                }
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea
+                matInput
+                type="text"
+                id="description"
+                name="descriptionInput"
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMaxRows="8"
+                cdkAutosizeMinRows="5"
+                [(ngModel)]="description"
+            ></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <!--I'm sure, appropriately, the close button goes here, but I like my x in the corner and did it the easiest way I could think of-->
+    <button mat-flat-button type="submit" form="new-deck" [disabled]="!canSendRequest">Create</button>
+</mat-dialog-actions>
+    

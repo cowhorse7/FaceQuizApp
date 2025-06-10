@@ -31,8 +31,8 @@ export class DecksService {
           filter_name: filterName(),
           sort_by: sortBy(),
           sort_direction: sortDirection(),
-            page_count: pageCount,
-            page_offset: pageOffset(),
+          page_count: pageCount,
+          page_offset: pageOffset(),
         },
         headers: {
           Authorization: this.auth.bearerToken() ?? '',
