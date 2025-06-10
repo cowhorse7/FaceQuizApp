@@ -43,7 +43,7 @@ export class DecksService {
   }
   createDeck(name: Signal<string>, description: Signal<string>){
 
-    return fetchSignal<CreateDeckResponse>(()=>({
+    return fetchSignal.post<CreateDeckResponse>(()=>({
       url:'/api/decks/',
       query: {
         name: name(),
@@ -53,7 +53,6 @@ export class DecksService {
         Authorization: this.auth.bearerToken() ?? '',
       },
     }),
-  true,
 );
   }
 }
