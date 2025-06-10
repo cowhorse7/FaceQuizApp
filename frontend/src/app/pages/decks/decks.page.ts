@@ -59,11 +59,6 @@ export class DecksPage {
     computed(() => this.pageIndex() * this.PAGE_SIZE),
   );
 
-  // name = signal('');
-  // description = signal('');
-
-  // createDeckRequest = this.service.createDeck(this.name, this.description);
-
   handlePaginationUpdate(e:PageEvent) {
     this.pageIndex.set(e.pageIndex);
   }
@@ -72,20 +67,25 @@ export class DecksPage {
     this.sortDirection.set(sort.direction || this.defaultSortDirection);
     this.pageIndex.set(0);
   }
-  // createNewDeck(){
-  //   const name = signal<string>(this.formData.name);
-  //   const description = signal<string>(this.formData.description);
-  //   try{
-  //   runInInjectionContext(this.injector, () => {
-  //   });
-  //     console.log("success");
-  //   }catch(err){
-  //     throw new Error("deck creation failed");
-  //   }
-  // };
   readonly dialog = inject(MatDialog);
   openModal(){
     const dialogRef = this.dialog.open(CreateDeckModalComponent);
+    dialogRef.afterClosed().subscribe((newId)=>{
+      if(newId){
+        if(
+          this.search() === '' &&
+          this.sortBy() === 'updatedAt' &&
+          this.sortDirection() === 'desc' &&
+          this.pageIndex() === 0
+        ) {
+          this.decksRequest.refresh();
+        } else {
+          this.pageIndex.set(0);
+          this.search.set('');
+          this.sortBy.set('updatedAt');
+          this.sortDirection.set('desc');
+        }
+      }
+    });
   }
-  // closeModal(){this.isModalOpen = false;}
 }
