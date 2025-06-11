@@ -23,9 +23,9 @@
     </div>
 } @else {
     <div class="deck-list">
-        @for(deck of decksRequest.persistentValue()?.data; track $index) {
+        @for(deck of decksRequest.persistentValue()?.data; let i = $index; track $index) {
             <a [routerLink]="['/decks', deck.id]">
-            <mat-card class="deck" (click)="goToDeck(deck.id)">
+            <mat-card [ngClass]="'deck-color-' + (i % 5)" class="deck" (click)="goToDeck(deck.id)">
                 <mat-card-header>
                     <mat-card-title> {{ deck.name.trim().length > 43 ? `${deck.name.slice(0,40).trim()}...`:deck.name}}</mat-card-title>
                 </mat-card-header>

@@ -13,12 +13,13 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import { CreateDeckModalComponent } from '../../components/create-deck-modal/create-deck-modal.component';
+import { CommonModule } from '@angular/common';
 
 type SortOptions = 'name' | 'cards' | 'updatedAt' | 'createdAt'
 
 @Component({
   selector: 'app-decks',
-  imports: [MatInputModule, MatSortModule, MatCardModule, MatIconModule, MatPaginatorModule, MatProgressSpinnerModule, FormsModule, RouterLink, MatDialogModule,],
+  imports: [MatInputModule, MatSortModule, MatCardModule, MatIconModule, MatPaginatorModule, MatProgressSpinnerModule, FormsModule, RouterLink, MatDialogModule, CommonModule],
   templateUrl: './decks.page.html',
   styleUrl: './decks.page.scss'
 })

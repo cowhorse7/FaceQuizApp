@@ -8,10 +8,10 @@ mat-paginator {
 a {
     text-decoration: none;
     border-radius: 25px;
-    color: purple;
+    color: rgb(45, 22, 51);
 }
 a:visited {
-    color: rgb(40, 0, 40);
+    color: rgb(99, 0, 99);
 }
 main {
     width: 70vw;
@@ -40,24 +40,22 @@ button{
 mat-card-footer {
     justify-content:right;
 }
-mat-card {
-    background-color: inherit;
-}
-a:nth-of-type(5n + 1) {
+.deck-color-0 {
     background-color: rgb(180, 108, 180);
-}
-a:nth-of-type(5n + 2) {
+  }
+  .deck-color-1 {
     background-color: rgb(180, 108, 130);
-}
-a:nth-of-type(5n + 3) {
+  }
+  .deck-color-2 {
     background-color: rgb(180, 108, 108);
-}
-a:nth-of-type(5n + 4) {
+  }
+  .deck-color-3 {
     background-color: rgb(175, 180, 108);
-}
-a:nth-of-type(5n + 5) {
+  }
+  .deck-color-4 {
     background-color: rgb(108, 145, 180);
-}
+  }
+  
   
   @keyframes fadeIn {
     from { transform: scale(0.9); opacity: 0; }
