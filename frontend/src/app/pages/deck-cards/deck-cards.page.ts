@@ -7,17 +7,18 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { AddCardComponent } from '../../components/add-card/add-card.component';
+import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-deck-cards',
-  imports: [MatPaginatorModule, MatProgressSpinnerModule, MatCardModule, FormsModule],
+  imports: [MatPaginatorModule, MatProgressSpinnerModule, MatCardModule, FormsModule, MatIcon],
   templateUrl: './deck-cards.page.html',
   styleUrl: './deck-cards.page.scss'
 })
 export class DeckCardsPage {
-  isModalOpen = false;
-
   formData = {
     name: '',
     department: '',
@@ -48,6 +49,11 @@ export class DeckCardsPage {
   addCard(){
 
   }
-  openModal(){this.isModalOpen = true;}
-  closeModal(){this.isModalOpen = false;}
+  readonly dialog = inject(MatDialog);
+  openModal(){
+      const dialogRef = this.dialog.open(AddCardComponent);
+  }
+  onEdit(deck: number) {
+    console.log('Edit clicked for:', deck);
+  }
 }

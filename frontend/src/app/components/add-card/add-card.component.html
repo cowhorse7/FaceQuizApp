@@ -1,0 +1,35 @@
+<p>add-card works!</p>
+<!-- @if (isModalOpen){
+    <div class="modal-overlay">
+        <div class="modal-content"><button class="close-btn" (click)="closeModal()">X</button>
+          <h2>Add a card &nbsp;</h2>
+          <p>Please enter the person information for your new card:</p>
+          <form (ngSubmit)="addCard()" #formRef="ngForm">
+            <label for="name">Name</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                [(ngModel)]="formData.name"
+                />
+            <label for="department">Department</label>
+            <input
+                type="text"
+                id="department"
+                name="department"
+                [(ngModel)]="formData.department"
+            />
+            <label for="image">Picture (file upload)</label>
+            <input
+                type="file"
+                id="image"
+                name="image"
+                required
+                [(ngModel)]="formData.image"
+            />
+            <button type="submit" [disabled]="formRef.invalid">Add</button>
+          </form>
+        </div>
+      </div>
+    } -->
