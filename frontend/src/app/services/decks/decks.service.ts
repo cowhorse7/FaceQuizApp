@@ -55,4 +55,19 @@ export class DecksService {
     }),
 );
   }
+
+  updateDeck(name: Signal<string>, description: Signal<string>, deckId: number){
+
+    return fetchSignal.put<CreateDeckResponse>(()=>({
+      url:'/api/decks/'+ deckId,
+      body: {
+        name: name(),
+        description: description(),
+      },
+      headers: {
+        Authorization: this.auth.bearerToken() ?? '',
+      },
+    }),
+);
+  }
 }
