@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, linkedSignal, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, linkedSignal, viewChild } from '@angular/core';
 import { DecksService } from '../../services/decks/decks.service';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -31,7 +31,7 @@ export class EditDeckComponent {
 
   getDeckRequest = this.decksService.getDeck(this.deckId);
   
-  name = linkedSignal(() => this.getDeckRequest.value()?.name ?? '');
+  name = linkedSignal(() => this.getDeckRequest.value()?.name ?? ''); //FIXME: I want these values to display the current value... what am I missing? I think it's to do with the
   description = linkedSignal(() => this.getDeckRequest.value()?.description ?? '');
   updateDeckRequest = this.decksService.updateDeck(this.name, this.description, this.deckId);
 
@@ -44,5 +44,4 @@ export class EditDeckComponent {
     if(!this.canSendRequest()) return;
     else this.updateDeckRequest.refresh();
   }
-
 }

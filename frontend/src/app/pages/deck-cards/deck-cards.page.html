@@ -7,7 +7,7 @@
         </div>
     } @else {
         <h1>{{ deckRequest.persistentValue()?.name }}</h1>
-        <h2>{{ deckRequest.persistentValue()?.description }} <button mat-icon-button (click)="onEdit(deckRequest.persistentValue()!.id)">
+        <h2>{{ deckRequest.persistentValue()?.description }} <button mat-icon-button (click)="openEditDeck()"><!--deckRequest.persistentValue()!.id)"-->
             <mat-icon>edit</mat-icon>
           </button></h2>
         <div class="card-list">
@@ -30,7 +30,7 @@
         </div>
     }
 
-    <button (click)="openModal()">Add a card</button>
+    <button (click)="openAddCard()">Add a card</button>
     <button>Take the quiz!</button>
 
     </main>

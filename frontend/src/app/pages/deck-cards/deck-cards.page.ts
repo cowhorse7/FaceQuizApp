@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AddCardComponent } from '../../components/add-card/add-card.component';
 import { MatIcon } from '@angular/material/icon';
+import { EditDeckComponent } from '../../components/edit-deck/edit-deck.component';
 
 
 @Component({
@@ -50,10 +51,12 @@ export class DeckCardsPage {
 
   }
   readonly dialog = inject(MatDialog);
-  openModal(){
-      const dialogRef = this.dialog.open(AddCardComponent);
+  openEditDeck(){
+    const dialogRef = this.dialog.open(EditDeckComponent, {
+      data: this.id,
+    });
   }
-  onEdit(deck: number) {
-    console.log('Edit clicked for:', deck);
+  openAddCard(){
+      const dialogRef = this.dialog.open(AddCardComponent);
   }
 }

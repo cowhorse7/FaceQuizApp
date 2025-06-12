@@ -55,7 +55,7 @@ export class DecksService {
   }
 
   getDeck(deckId: number){
-    return fetchSignal.put<UpdateDeckResponse>(()=>({
+    return fetchSignal<GetDeckResponse>(()=>({
       url:'/api/decks/'+ deckId,
       headers: {
         Authorization: this.auth.bearerToken() ?? '',
