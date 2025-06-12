@@ -10,7 +10,19 @@ type GetDecksResponse = {
   }[];
   totalCount: number;
 };
+type GetDeckResponse = {
+  id: number;
+  name: string;
+  description: string;
+  cards: {
+    id: number;
+    personName: string;
+    personDepartment: string;
+    imageUrl: string | null;
+  }[];
+};
 type CreateDeckResponse = { id: number; name: string };
+type UpdateDeckResponse = { id: number; name: string; description?: string; };
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +53,17 @@ export class DecksService {
       true,
     );
   }
+
+  getDeck(deckId: number){
+    return fetchSignal.put<UpdateDeckResponse>(()=>({
+      url:'/api/decks/'+ deckId,
+      headers: {
+        Authorization: this.auth.bearerToken() ?? '',
+      },
+    }),
+);
+  };
+
   createDeck(name: Signal<string>, description: Signal<string>){
 
     return fetchSignal.post<CreateDeckResponse>(()=>({
@@ -58,7 +81,7 @@ export class DecksService {
 
   updateDeck(name: Signal<string>, description: Signal<string>, deckId: number){
 
-    return fetchSignal.put<CreateDeckResponse>(()=>({
+    return fetchSignal.put<UpdateDeckResponse>(()=>({
       url:'/api/decks/'+ deckId,
       body: {
         name: name(),

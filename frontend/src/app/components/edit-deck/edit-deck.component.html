@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>Edit Deck</h2>
+  <mat-dialog-content>
+    <form id="edit-deck-form" class="column" (ngSubmit)="sendRequest()">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          id="name"
+          name="nameInput"
+          type="text"
+          required
+          #nameInput="ngModel"
+          [(ngModel)]="name"
+          cdkFocusInitial
+        />
+        <mat-error>
+          @if (nameInput.hasError("required")) {
+            Error: Name is required
+          }
+          @if (nameInput.hasError("conflict")) {
+            Error: Name is already in use
+          }
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          id="description"
+          name="description"
+          type="text"
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="5"
+          cdkAutosizeMaxRows="8"
+          [(ngModel)]="description"
+        ></textarea>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button
+      mat-flat-button
+      type="submit"
+      form="edit-deck-form"
+      [disabled]="!canSendRequest()"
+    >Update
+    </button>
+  </mat-dialog-actions>
